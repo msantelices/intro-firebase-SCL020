@@ -1,9 +1,10 @@
 import { login } from '../src/firebase/auth.js'
 import { auth, signInWithEmailAndPassword } from '../src/firebase/init.js'
 
+
 jest.mock('../src/firebase/init.js', ()=> {
     return {
-        auth: jest.fn(()=> {
+        auth: jest.fn(()=> { // La funcion jest.fn <- Crea una funcion interceptada por JEST
             return { auth: 'TEST' }
         }),
 
@@ -22,8 +23,10 @@ describe('Tests for the login function', ()=> {
     const email = "admin@test.com"
     const pass = "admin123"
 
+    // toHaveBeenCalled y toHaveBennCalledWith solo sirven para funcion Mock
     it('Should call signInWithEmailAndPassword', async()=> {
         await login(email, pass)
+        // Revisamos si durante la ejecucion de login se invoco la funcion singInWithEmailAndPassword
         expect(signInWithEmailAndPassword).toHaveBeenCalled()
     })
 
@@ -38,5 +41,9 @@ describe('Tests for the login function', ()=> {
         } catch(error) {
             expect(error).toMatch('ERROR')
         }
+
     })
 })
+
+// then - catch -> asincrono
+// async - await - try - catch -> sincrono
